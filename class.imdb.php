@@ -83,7 +83,8 @@ class Imdb {
 			'Country:'			=> '/a',
 			'Language:' 		=> "/a",
 			'Runtime:'			=> '/text()' ,
-			'Aspect Ratio:'		=> '/text()'
+			'Aspect Ratio:'		=> '/text()' ,
+			'Release Date:'		=> '/text()'
 			
 		);
 		$this->cast     = false;
@@ -155,7 +156,7 @@ class Imdb {
 			$nodeNameList			= $xpath->query('h4', $nodeList->item($i));	
 			$grabName				= trim($nodeNameList->item(0)->nodeValue);
 			$nodeValueList 			= $xpath->query('a', $nodeList->item($i));
-			$grabValue[$grabName] 	= $this->getValue($exp, $nodeValueList);			
+			$grabValue[$grabName] 	= $this->getValue('a', $nodeValueList);			
 		}
 		
 		// grab story line:
