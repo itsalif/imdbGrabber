@@ -38,9 +38,6 @@ function echoMovieDetails(&$movieInfo) {
 }
 /*
 
-$path = 'http://www.imdb.com/title/tt0133093/'; // the Matrix Movie
-$matrixInfo = $imdbObj->get($path);
-echoMovieDetails($matrixInfo);
 
 
 
@@ -81,11 +78,13 @@ echoMovieDetails($movieInfo);
 */
 
 
+
+$path = 'http://www.imdb.com/title/tt0133093/'; // the Matrix Movie
+$matrixInfo = $imdbObj->get($path);
+echoMovieDetails($matrixInfo);
+
 $Title = 'The Italian Job (1969)';
 $IMDB  = $imdbObj->showCast(true)
-					->add('Genre:', '/div/a')
-					->add('Tagline:', '/div/text()')
-					->add('Certification:', '/div/a')
 					->get($Title);
 
 					
