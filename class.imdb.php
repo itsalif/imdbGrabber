@@ -158,6 +158,9 @@ class Imdb {
 			$grabValue[$grabName] 	= $this->getValue($exp, $nodeValueList);			
 		}
 		
+		// grab story line:
+		$grabValue['Storyline:'] = $this->removeNewLines($xpath->query("//div[@class='article'][h2='Storyline']/p")->item(0)->firstChild->nodeValue);
+		
 		if( $this->cast ) {
 		    $castNameList  = $xpath->query("//td[@class='name']/a/text()");
 		    $castThumbList = $xpath->query("//td[@class='primary_photo']/a/img");
