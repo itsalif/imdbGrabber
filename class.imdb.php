@@ -7,38 +7,11 @@
  * @version 2.1
  * @license MIT, 
  * Release Date:  May 21, 2009
- * Last Updated:  July 8, 2010
+ * Last Updated:  Oct 10, 2010 
  * 
- * Brief Explanation of its Logic (requires Knowledge of XPath, Skip to 'How to use' below to see its usage):
- * ---------------------------------- 
- * Looking at the IMDB Webpage, it seems, the tags for storing information are in the Two format
+ * 
+ * ----------------------------------------------
  *  
- * Format 1:
- * <div class="info">
- * 		<h5>Release Date:</h5> 
- *      <div class="info-content">
- * 		22 May 2008 (Canada)
- * 		<a ..>more</a>
- *      </div>
- * </div>
- *
- * Format 2:
- * <div id="director-info" class="info">
- * 		<h5>Director:</h5>
- *      <div class="info-content">
- * 		<a href="/name/nm0000229/">Steven Spielberg</a>
- *      </div>
- * </div>
- * 
- * So, all the Div we want to grab has class='info' wrapper on it.
- * - For Format 1, we want to Grab: 22 May 2008 (Canada)
- * - For Format 2, we want to Grab: Steven Spielberg 
- *
- * So, XPath thats used:
- * Format 1: //div[@class='info'][h5='Release Date:']/text()
- * Format 2: //div[@class='info'][h5='Director:']/a
- * 
- * 
  * How to Use (no knowledge of XPath required): 
  * --------------
  * Initialize the Class and then just pass the URL to get the basic Information
@@ -54,42 +27,6 @@
  * 
  * 
  * 
- * + CUSTOMIZED USAGE:
- * If you wish to add you own fields.. just look through the source code of the page and call this function
- * 
- *  - EXAMPLE 1:
- * If you want to get all the writers for that Movie
- * The source code of this page 'http://www.imdb.com/title/tt0367882/' shows this tags about Writers:
- * ///
- * <div class="info">
- * 		<h5>Writers <a href="/wga">(WGA)</a>:</h5>
- *      <div class="info-content">
- * 		<a href="/name/nm0462895/">David Koepp</a> (screenplay)<br/><a href="/name/nm0000184/">George Lucas</a> (story) ...<br/><a class="tn15more" href="fullcredits#writers">more</a>
- *      </div>
- * </div>
- * ///
- * So, all the Writers are inside an 'a' tag , so do the following:
- * $imdbObj 	= new Imdb();
- * $movieInfo 	= $imdbObj->add('Writers :', '/div/a')->get('http://www.imdb.com/title/tt0367882/');
- * 
- *   - EXAMPLE 2:
- * Lets say I also want to grab the Awards for that movie, I look at the source code of that page and see this:
- * ///
- * <div class="info">
- * 	<h5>Awards:</h5> 
- *  <div class="info-content">
- *  Nominated for BAFTA Film Award.
- *  Another 3 wins &amp; 25 nominations
- *  <a class="tn15more..">more</a>
- *  </div>
- * </div>
- * ///
- * $imdbObj 	= new Imdb();
- * $movieInfo	= $imdbObj->add('Awards:','/div/text()')->get('http://www.imdb.com/title/tt0367882/');
- * 
- * To get both records, do this:
- * $movieInfo  = $imdbObj->add( array( 'Writers :' =>  '/div/a', 'Awards:' => '/div/text()' ) )->get('http://www.imdb.com/title/tt0367882/');
- * 
  * 
  * CHANGE LOG (Jan 20, 2010)
  * --------------------------
@@ -101,6 +38,10 @@
  * Version 2.1
  * > Added a simple regex check for validity of URL on isValidURL method.
  * > Added a simple search query check on getImdbURL method.
+ * 
+ * CHANGE LOG (Oct 10, 2010)
+ * --------------------------
+ * > Rewrote the XPath expression as IMDB Changed their Layout completely.
  */
 
 class Imdb {
@@ -139,11 +80,11 @@ class Imdb {
 	 */
 	public function __construct() {
 		$this->defaultList = array (
-			'Plot:'				=> "/div/text()" ,
-			'Director:' 		=> "/div/a" ,
-		    'Directors:'        => "/div/a" ,
-			'Release Date:'		=> "/div/text()" ,
-			'Runtime:'			=> "/div/text()"
+			'Country:'			=> '/a',
+			'Language:' 		=> "/a",
+			'Runtime:'			=> '/text()' ,
+			'Aspect Ratio:'		=> '/text()'
+			
 		);
 		$this->cast     = false;
 		$this->castList = array();
@@ -161,14 +102,15 @@ class Imdb {
 		unset($this->grabList);
 	}
 	
-	/**
+	/*
+	 * @unfortunately, this method needs to be depricated, the new IMDB Layout doesnot follow any patterned layout :(
 	 * This method allows users to add more fields that needs to be extracted from Imdb, 
 	 * on top of the default ones
 	 * 
 	 * @return object	   this Object, This allows method Chaining.
 	 * @param string|array $name
 	 * @param string|null  $value[optional]
-	 */
+	
 	public function add($name, $value='') {
 		if( is_array($name) ) {
 			foreach($name as $k=>$v) {
@@ -180,7 +122,7 @@ class Imdb {
 		return $this;
 	}
 	
-	
+	 */
 	
 	/**
 	 * This Method Grabs the info from IMDB website and returns it in an assoc array format, false on failure
@@ -202,16 +144,24 @@ class Imdb {
 		$xpath = new DomXPath($imdbDom);	
 		
 		$grabValue = array (
-			'title:' => $xpath->query('/html/head/title')->item(0)->nodeValue	,
-			'image:' => $xpath->query("//div[@class='photo']/a/img")->item(0)->getAttribute('src') ,
+			'title:' => $this->removeNewLines($xpath->query('//h1')->item(0)->nodeValue)	,
+			'image:' => $xpath->query("//td[@id='img_primary']/a/img")->item(0)->getAttribute('src') ,
 			'url:'	 => $url
 		);
 		
+		// grab director, writer, (Dont get run time from here)
+		$nodeList = $xpath->query("//td[@id='overview-top']/div[@class='txt-block']");
+		for($i=0;$i<$nodeList->length-1;$i++) {
+			$nodeNameList			= $xpath->query('h4', $nodeList->item($i));	
+			$grabName				= trim($nodeNameList->item(0)->nodeValue);
+			$nodeValueList 			= $xpath->query('a', $nodeList->item($i));
+			$grabValue[$grabName] 	= $this->getValue($exp, $nodeValueList);			
+		}
+		
 		if( $this->cast ) {
-		//	$grabValue['cast'] = $xpath->query("//div[@class='info'][h3='Cast']/)
-		    $castNameList  = $xpath->query("//td[@class='nm']/a/text()");
-		    $castThumbList = $xpath->query("//td[@class='hs']/a/img");
-		    $castCharList  = $xpath->query("//td[@class='char']/a/text()");
+		    $castNameList  = $xpath->query("//td[@class='name']/a/text()");
+		    $castThumbList = $xpath->query("//td[@class='primary_photo']/a/img");
+		    $castCharList  = $xpath->query("//td[@class='character']/div/a/text()");
             
 		    $totalElem = $castNameList->length; 
 		    for($i=0;$i<$totalElem;$i++) {
@@ -226,21 +176,15 @@ class Imdb {
 		}
 		
 		if( $this->rating ) {
-			$grabValue['User Rating:'] = $xpath->query("//div[@class='starbar-meta']/b/text()")->item(0)->nodeValue;
-			$grabValue['Total Votes:'] = $xpath->query("//div[@class='starbar-meta']/a/text()")->item(0)->nodeValue;
+			$grabValue['User Rating:'] = $xpath->query("//div[@class='rating rating-big']/span[@class='rating-rating']/text()")->item(0)->nodeValue;
+			$grabValue['Total Votes:'] = $xpath->query("//div[@class='star-box']/a[@href='ratings']/text()")->item(0)->nodeValue;
 		}
 		
 		foreach($this->grabList as $k=>$v) {
-			$xpathString = "//div[@class='info'][h5='{$k}']{$v}";	
+			$xpathString = "//div[@class='article']/div[@class='txt-block'][h4='{$k}']{$v}";	
 			$grabValue[$k] = $this->getValue($v, $xpath->query($xpathString));
 		}
 		
-		if( $grabValue['Directors:'] != '' ) {
-            $grabValue['Director:'] = $grabValue['Directors:'];
-			
-		} 
-		
-		unset($grabValue['Directors:']);
 		return $grabValue;
 	}
 	
@@ -278,6 +222,15 @@ class Imdb {
 			}
 		}
 		return $nodeValue;
+	}
+	
+	/**
+	 * Removes new lines in a string 
+	 * @param $str The string to be processed
+	 * @return $str the clean string
+	 */
+	protected function removeNewLines($str) {
+		return str_replace("\n", "", $str);
 	}
 	
 	
@@ -323,12 +276,6 @@ class Imdb {
 		// a simple regex
 		$matchCount = preg_match("/(www\.)?imdb\.com\/title\/[A-Za-z0-9]+/i", $url);
 		return !($matchCount < 1);
-/*
-		if( strpos($url, "http://") === false || strpos($url,"www.") === false ) {
-			return false;
-		}
-		return true;
-*/
 	}
 	
 	/**
