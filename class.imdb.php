@@ -84,7 +84,8 @@ class Imdb {
 			'Language:' 		=> "/a",
 			'Runtime:'			=> '/text()' ,
 			'Aspect Ratio:'		=> '/text()' ,
-			'Release Date:'		=> '/text()'
+			'Release Date:'		=> '/text()' ,
+			'Budget:'			=> '/text()'
 			
 		);
 		$this->cast     = false;
@@ -146,9 +147,13 @@ class Imdb {
 		
 		$grabValue = array (
 			'title:' => $this->removeNewLines($xpath->query('//h1')->item(0)->nodeValue)	,
-			'image:' => $xpath->query("//td[@id='img_primary']/a/img")->item(0)->getAttribute('src') ,
 			'url:'	 => $url
 		);
+		
+		$imageNode = $xpath->query("//td[@id='img_primary']/a/img"); 
+		if ($imageNode->length != 0)	{
+			$grabValue['image'] = $imageNode->item(0)->getAttribute('src');
+		}
 		
 		// grab director, writer, (Dont get run time from here)
 		$nodeList = $xpath->query("//td[@id='overview-top']/div[@class='txt-block']");
@@ -165,7 +170,7 @@ class Imdb {
 		if( $this->cast ) {
 		    $castNameList  = $xpath->query("//td[@class='name']/a/text()");
 		    $castThumbList = $xpath->query("//td[@class='primary_photo']/a/img");
-		    $castCharList  = $xpath->query("//td[@class='character']/div/a/text()");
+		    $castCharList  = $xpath->query("//td[@class='character']/div");
             
 		    $totalElem = $castNameList->length; 
 		    for($i=0;$i<$totalElem;$i++) {
