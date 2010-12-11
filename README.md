@@ -12,11 +12,9 @@ How to Use
   
   $imdb = new Imdb();
   
-  // Pass the entire path or a search query
-  $imdb->get('http://www.imdb.com/title/tt0103064/');
+  $imdb->get('http://www.imdb.com/title/tt0103064/'); // Pass the entire path or a search query
   
-  // or the name of Movie
-  $imdb->get('The Matrix'); 
+  $imdb->get('The Matrix'); // or the name of Movie 
   
   
 Parameters / Options
@@ -31,30 +29,36 @@ Parameters / Options
 Online Documentation / Demo
 ---------------------------
 
-* Online Documentation: http://www.itsalif.info/content/imdb-details-grabber-using-php-dom-xpath-extract-movie-details
+* (View Online Documentation)[http://www.itsalif.info/content/imdb-details-grabber-using-php-dom-xpath-extract-movie-details]
   
-* Online Demo: http://www.itsalif.info/content/example-imdb-details-grabber
+* (Check out Online Demo)[http://www.itsalif.info/content/example-imdb-details-grabber]
 
 
 Change Log
 --------------------------
 
 * Version 1.5 (Feb 10, 2010)
-   Added the showCast Method. When this method is invoked with a 'true' parameter, the cast in the movie is also grabbed.
+
+   ** Added the showCast Method. When this method is invoked with a 'true' parameter, the cast in the movie is also grabbed.
 	
 * Version 2 (July 15, 2010)
-   Added a simple regex check for validity of URL on isValidURL method.
-   Added a simple search query check on getImdbURL method.
+
+   ** Added a simple regex check for validity of URL on isValidURL method.
+   ** Added a simple search query check on getImdbURL method.
 
 * Version 2.1 (Oct 10, 2010)
-   Rewrote the XPath expression as IMDB Changed their Layout completely.
+
+   ** Rewrote the XPath expression as IMDB Changed their Layout completely.
  	
 * Version 2.2 (Dec 9, 2010)
-   Fixed a Bug on Cast for new Layout and added Budget Info.
+
+   ** Fixed a Bug on Cast for new Layout and added Budget Info.
 
 
-Policy
+License & Policy
 --------------------------
 
-The script has been released under MIT License. Please note that this script is created as a demo of screen scrapping. 
-IMDB Policy prohibits screen scrapping.    
+Copyright (c) 2010 Abdullah Rubiyath <http://www.itsalif.info/>. 
+The script has been released under MIT License. 
+
+Please note that this script is created as a demo of screen scrapping. IMDB Policy prohibits screen scrapping.    
