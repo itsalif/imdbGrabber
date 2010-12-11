@@ -4,13 +4,12 @@
  * Requires PHP 5.1 (uses DomXPath, DomDocument)
  * 
  * @author Abdullah Rubiyath <http://www.itsalif.info/>
- * @version 2.1
- * @license MIT, 
+ * @version 2.2
+ * @license MIT
+ *  
  * Release Date:  May 21, 2009
- * Last Updated:  Oct 10, 2010 
+ * Last Updated:  Dec 9, 2010 
  * 
- * 
- * ----------------------------------------------
  *  
  * How to Use (no knowledge of XPath required): 
  * --------------
@@ -42,6 +41,10 @@
  * CHANGE LOG (Oct 10, 2010)
  * --------------------------
  * > Rewrote the XPath expression as IMDB Changed their Layout completely.
+ * 
+ * CHANGE LOG (Dec 9, 2010)
+ * -------------------------
+ * > Fixed a Bug on Cast and added Budget Info.
  */
 
 class Imdb {
@@ -103,28 +106,6 @@ class Imdb {
 		unset($this->defaultList);
 		unset($this->grabList);
 	}
-	
-	/*
-	 * @unfortunately, this method needs to be depricated, the new IMDB Layout doesnot follow any patterned layout :(
-	 * This method allows users to add more fields that needs to be extracted from Imdb, 
-	 * on top of the default ones
-	 * 
-	 * @return object	   this Object, This allows method Chaining.
-	 * @param string|array $name
-	 * @param string|null  $value[optional]
-	
-	public function add($name, $value='') {
-		if( is_array($name) ) {
-			foreach($name as $k=>$v) {
-				$this->grabList[$k] = $v;
-			}	 
-		} else {
-			$this->grabList[$name] = $value;
-		}
-		return $this;
-	}
-	
-	 */
 	
 	/**
 	 * This Method Grabs the info from IMDB website and returns it in an assoc array format, false on failure

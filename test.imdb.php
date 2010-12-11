@@ -36,47 +36,6 @@ function echoMovieDetails(&$movieInfo) {
 		echo '<pre>Invalid Search Term or Invalid Imdb URL. No such Movie exists on IMDB</pre>';	
 	}
 }
-/*
-
-
-
-
-// movie: The Transformers (using a search query)  
-$path = 'Transformers';
-
-// grabbing with cast
-$movieInfo = $imdbObj
-                ->showCast(true)
-                ->get($path);
-
-                
-echoMovieDetails($movieInfo);
-
-
-// An Invalid Search Parameter:
-$path = 'The Italian Job (1969)';
-
-// grabbing with cast
-$movieInfo = $imdbObj
-                ->showCast(true)
-                ->get($path);
-
-echoMovieDetails($movieInfo);
-
-
-
-
-// grab with custom stuff, movie: Shutter Island
-$path = 'Shutter Island';
-
-$movieInfo = $imdbObj->add('Writers:', '/div/a')
-                        ->add('Genre:', '/div/a')
-                        ->showRating(true)
-                        ->get($path);
-
-echoMovieDetails($movieInfo);
-*/
-
 
 
 $path = 'http://www.imdb.com/title/tt0133093/'; // the Matrix Movie
