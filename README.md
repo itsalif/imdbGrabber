@@ -29,9 +29,9 @@ Parameters / Options
 Online Documentation / Demo
 ---------------------------
 
-* (View Online Documentation)[http://www.itsalif.info/content/imdb-details-grabber-using-php-dom-xpath-extract-movie-details]
+* View Online Documentation: <http://www.itsalif.info/content/imdb-details-grabber-using-php-dom-xpath-extract-movie-details>
   
-* (Check out Online Demo)[http://www.itsalif.info/content/example-imdb-details-grabber]
+* Check out Online Demo: <http://www.itsalif.info/content/example-imdb-details-grabber>
 
 
 Change Log
@@ -39,20 +39,19 @@ Change Log
 
 * Version 1.5 (Feb 10, 2010)
 
-   ** Added the showCast Method. When this method is invoked with a 'true' parameter, the cast in the movie is also grabbed.
+   Added the showCast Method. When this method is invoked with a 'true' parameter, the cast in the movie is also grabbed.
 	
 * Version 2 (July 15, 2010)
 
-   ** Added a simple regex check for validity of URL on isValidURL method.
-   ** Added a simple search query check on getImdbURL method.
+   Added a simple regex check for validity of URL on isValidURL method.
 
 * Version 2.1 (Oct 10, 2010)
 
-   ** Rewrote the XPath expression as IMDB Changed their Layout completely.
+   Rewrote the XPath expression as IMDB Changed their Layout completely.
  	
 * Version 2.2 (Dec 9, 2010)
 
-   ** Fixed a Bug on Cast for new Layout and added Budget Info.
+   Fixed a Bug on Cast for new Layout and added Budget Info.
 
 
 License & Policy
