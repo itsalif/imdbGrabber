@@ -78,6 +78,11 @@ class Imdb {
   protected $rating;
 
   /**
+   * @var $genres
+   */
+  protected $genres;
+
+  /**
    * This Constructor of the Class
    * @return 
    */
@@ -96,6 +101,7 @@ class Imdb {
     $this->grabList = $this->defaultList;
     $this->csv    = true;
     $this->rating   = true;
+		$this->genres   = true;
   }
   
   /**
@@ -171,6 +177,17 @@ class Imdb {
       $grabValue['Total Votes:'] = $xpath->query("//div[@class='star-box']/a[@href='ratings']/text()")->item(0)->nodeValue;
     }
     
+    if( $this->genres ) {
+      $genresNameList = $xpath->query("//div[@class='infobar']/a/text()");
+
+      $totalElem = $genresNameList->length;
+      for($i=0;$i<$totalElem;$i++) {
+        $this->genresList .= $genresNameList->item($i)->nodeValue . " ";
+      }
+
+      $grabValue['Genres:'] = $this->genresList;
+		}
+
     foreach($this->grabList as $k=>$v) {
       $xpathString = "//div[@class='article']/div[@class='txt-block'][h4='{$k}']{$v}";  
       $grabValue[$k] = $this->getValue($v, $xpath->query($xpathString));
@@ -246,6 +263,16 @@ class Imdb {
     return $this;
   }
   
+  /**
+	 * Set the Genres 
+	 * @param  boolean $t
+	 * @return object
+	 */
+	public function showGenres($t) {
+		$this->genres = $t;
+		return $this;
+	}
+
   /**
    * Set the permission to use CSV or not
    * 
