@@ -53,7 +53,11 @@ Change Log
 
    Fixed a Bug on Cast for new Layout and added Budget Info.
 
+* Version 2.2 (May 29, 2011)
 
+   Added Genres - Provided by Greg Fitzgerald (Github: https://github.com/gregf)
+
+   
 License & Policy
 --------------------------
 
