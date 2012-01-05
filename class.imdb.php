@@ -180,8 +180,8 @@ class Imdb {
     }
     
     if($this->rating) {
-      $grabValue['User Rating:'] = $xpath->query("//div[@class='rating rating-big']/span[@class='rating-rating']/text()")->item(0)->nodeValue;
-      $grabValue['Total Votes:'] = $xpath->query("//div[@class='star-box']/a[@href='ratings']/text()")->item(0)->nodeValue;
+      $grabValue['User Rating:'] = $xpath->query("//span[@itemprop='ratingValue']/text()")->item(0)->nodeValue;
+      $grabValue['Total Votes:'] = $xpath->query("//span[@itemprop='ratingCount']/text()")->item(0)->nodeValue;
     }
     
     if ($this->genres) {
