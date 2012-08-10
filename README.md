@@ -6,22 +6,22 @@ PHP IMDB Grabber
 How to Use
 ----------
 
-  At first include PHP class file (class.imdb.php)
+At first include PHP class file (class.imdb.php)
   
-  <pre>
-  require_once 'path/to/class.imdb.php';
-  </pre>
+<pre>
+require_once 'path/to/class.imdb.php';
+</pre>
   
-  Then, just use the following:
-  <pre>
-  $imdb = new Imdb();
+Then, just use the following:
+<pre>
+$imdb = new Imdb();
   
-  // Pass the entire path or a search query
-  $imdb->get('http://www.imdb.com/title/tt0103064/'); 
+// Pass the entire path or a search query
+$imdb->get('http://www.imdb.com/title/tt0103064/'); 
   
-  // or the name of Movie 
-  $imdb->get('The Matrix'); 
-  </pre>
+// or the name of Movie 
+$imdb->get('The Matrix'); 
+</pre>
   
 Parameters / Options
 --------------------
