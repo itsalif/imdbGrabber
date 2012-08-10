@@ -59,9 +59,7 @@ Change Log
 
 * Version 2.3 (August 10, 2012)
 
-  Replaced DomDocument->load with CURL for loading IMDB Page
-  Replaced title grabbing with regex for getting title for new IMDB Layout
-  Updated the xpath expression for Runtime
+  Replaced DomDocument->load with CURL for loading IMDB Page. Updated the xpath expression for Runtime for new layout
    
 License & Policy
 --------------------------
