@@ -49,14 +49,19 @@ Change Log
 
    Rewrote the XPath expression as IMDB Changed their Layout completely.
  	
-* Version 2.2 (Dec 9, 2010)
+* Version 2.1 (Dec 9, 2010)
 
    Fixed a Bug on Cast for new Layout and added Budget Info.
 
-* Version 2.2 (May 29, 2011)
+* Version 2.1 (May 29, 2011)
 
    Added Genres - Provided by Greg Fitzgerald (Github: https://github.com/gregf)
 
+* Version 2.3 (August 10, 2012)
+
+  Replaced DomDocument->load with CURL for loading IMDB Page
+  Replaced title grabbing with regex for getting title for new IMDB Layout
+  Updated the xpath expression for Runtime
    
 License & Policy
 --------------------------
