@@ -7,15 +7,21 @@ How to Use
 ----------
 
   At first include PHP class file (class.imdb.php)
- 
-  require_once 'path/to/class.imdb.php';
   
+  <pre>
+  require_once 'path/to/class.imdb.php';
+  </pre>
+  
+  Then, just use the following:
+  <pre>
   $imdb = new Imdb();
   
-  $imdb->get('http://www.imdb.com/title/tt0103064/'); // Pass the entire path or a search query
+  // Pass the entire path or a search query
+  $imdb->get('http://www.imdb.com/title/tt0103064/'); 
   
-  $imdb->get('The Matrix'); // or the name of Movie 
-  
+  // or the name of Movie 
+  $imdb->get('The Matrix'); 
+  </pre>
   
 Parameters / Options
 --------------------
