@@ -26,7 +26,7 @@ $imdb->get('The Matrix');
 Parameters / Options
 --------------------
 
-  By default, the the method does not return the cast in the movie. If you wish to get a list of the cast,
+  By default, the method does not return the cast in the movie. If you wish to get a list of the cast,
   use the following method:
   
   $imdb->showCast(true)->get('Name OR URL of Movie');
